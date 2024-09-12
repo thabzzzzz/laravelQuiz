@@ -1,44 +1,54 @@
 <template>
     <div class="result-container">
-      <h2>Quiz Results</h2>
-      <p>Score: {{ numOfCorrectQuestions }} / {{ quizQuestionLength }}</p>
-  
+      <!-- Display the score -->
+      <p>Your Score: {{ numOfCorrectQuestions }} / {{ quizQuestionLength }}</p>
+      
+      <!-- Form for uploading the high score -->
       <div class="upload-form">
         <input v-model="username" placeholder="Enter your username" />
         <button @click="uploadHighScore">Upload Highscore</button>
-        <div v-if="numOfCorrectQuestions !== undefined">
-          <p>Current Score: {{ numOfCorrectQuestions }}</p>
-        </div>
+        <p v-if="uploadSuccessMessage">{{ uploadSuccessMessage }}</p>
       </div>
     </div>
   </template>
   
   <script setup>
-  import { ref, defineProps } from 'vue';
+  import { ref } from 'vue';
   import axios from 'axios';
   
-  // Define reactive variables and props
-  const props = defineProps(['numOfCorrectQuestions', 'quizQuestionLength']);
+  // Receive the quizID, numOfCorrectQuestions, and quizQuestionLength as props
+  const props = defineProps({
+    numOfCorrectQuestions: Number,
+    quizQuestionLength: Number,
+    quizID: Number
+  });
+  
   const username = ref('');
-  const numOfCorrectQuestions = ref(props.numOfCorrectQuestions || 0); // Default value for testing
+  const uploadSuccessMessage = ref('');
   
   const uploadHighScore = async () => {
     console.log('Upload Highscore button clicked');
     console.log('Username:', username.value);
-    console.log('Score:', numOfCorrectQuestions.value);
+    console.log('Quiz ID:', props.quizID);
+    console.log('Score:', props.numOfCorrectQuestions);
   
     try {
       const response = await axios.post('/highscores', {
         username: username.value,
-        quiz_id: props.quizID, // Ensure this prop is correctly passed
-        score: numOfCorrectQuestions.value,
+        quiz_id: props.quizID,
+        score: props.numOfCorrectQuestions,
       });
   
       console.log('Response:', response.data);
-      alert('Highscore uploaded successfully');
+      uploadSuccessMessage.value = 'Highscore uploaded successfully!';
     } catch (error) {
-      console.error('Error uploading highscore:', error);
-      alert('Failed to save high score');
+      if (error.response) {
+        console.error('Error uploading highscore:', error.response.data);
+        alert(`Failed to save high score: ${error.response.data.message}`);
+      } else {
+        console.error('Error uploading highscore:', error.message);
+        alert('Failed to save high score');
+      }
     }
   };
   </script>
@@ -64,14 +74,14 @@
   .upload-form button {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #007bff;
+    background-color: bisque;
     color: white;
     border: none;
     cursor: pointer;
   }
   
   .upload-form button:hover {
-    background-color: #0056b3;
+    background-color: rgb(255, 184, 97);
   }
   
   .upload-form p {
