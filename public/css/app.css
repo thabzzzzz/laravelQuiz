@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('/fonts/monsterrat.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Apply the font to all text across the site */
+body {
+    font-family: 'Montserrat', sans-serif;
+}
