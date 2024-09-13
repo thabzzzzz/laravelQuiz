@@ -46,4 +46,20 @@ class HighScoreController extends Controller
         return response()->json(['message' => 'Highscore uploaded successfully!']);
     }
     
+    public function index()
+{
+    $highscores = Highscore::all(); // Fetch all highscores
+    return response()->json($highscores);
+}
+
+public function getTopHighScores()
+{
+    // Fetch the top 5 users based on their highest scores
+    $topScores = HighScore::with('quiz')  // Make sure this relationship exists
+        ->orderBy('score', 'desc')  // Order by score in descending order
+        ->take(5)                   // Limit to top 5 scores
+        ->get();
+
+    return response()->json($topScores);
+}
 }
