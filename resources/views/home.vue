@@ -35,7 +35,7 @@ const afterEnter = ()=>{
 <template>
       <div class="container">
     <header>
-      <h1>Quizes</h1>
+      <h1>Quizzy</h1>
       <input v-model.trim="search" type="text" placeholder="Search...">
     </header>
     
@@ -65,44 +65,49 @@ const afterEnter = ()=>{
 </template>
 
 <style scoped>
-
 .container {
     max-width: 1000px;
-    margin: 0 auto
-  }
+    margin: 0 auto;
+}
 
-  header {
+header {
     margin-bottom: 10px;
     margin-top: 30px;
     display: flex;
     align-items: center;
-  }
+}
 
-  header h1 {
+header h1 {
     font-weight: bold;
     margin-right: 30px;
-  }
+}
 
-  header input {
-    border: none;
-    background-color: rgba(128,128,128,0.1);
+header input {
+    border: 2px solid bisque; /* Add bisque border */
+    background-color: rgba(128, 128, 128, 0.1);
     padding: 10px;
     border-radius: 5px;
-  }
+    transition: border-color 0.2s ease; /* Smooth transition for border color */
+}
 
-  .options-container {
+header input:hover {
+    border-color: rgb(255, 184, 97); /* Change border color on hover */
+}
+
+.options-container {
     display: flex;
     flex-wrap: wrap;
     margin-top: 40px;
-  }
-
-  .card-enter-active,
-.card-leave-active {
-  transition: all 0.5s ease;
 }
+
+.card-enter-active,
+.card-leave-active {
+    transition: all 0.5s ease;
+}
+
 .card-enter-from,
 .card-leave-to {
-  opacity: 0;
-  transform: translateY(-30px);
+    opacity: 0;
+    transform: translateY(-30px);
 }
 </style>
