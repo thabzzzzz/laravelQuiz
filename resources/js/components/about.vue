@@ -8,8 +8,7 @@
         <h2>High Scores</h2>
         <div v-for="(score, index) in topScores" :key="index" class="user-score" ref="scoreRefs">
           <h3>{{ index + 1 }}. {{ score.username }} - Score: {{ score.total_score }}</h3>
-          <p v-if="score.quiz">{{ score.quiz.name }}</p>
-          <p v-else>No quiz data available</p>
+      
         </div>
       </div>
     </div>
