@@ -54,10 +54,10 @@ class HighScoreController extends Controller
 
 public function getTopHighScores()
 {
-    // Fetch the top 5 users based on their highest scores
-    $topScores = HighScore::with('quiz')  // Make sure this relationship exists
-        ->orderBy('score', 'desc')  // Order by score in descending order
-        ->take(5)                   // Limit to top 5 scores
+    $topScores = HighScore::select('username', \DB::raw('SUM(score) as total_score'))
+        ->groupBy('username')  // Group by username to combine scores for the same user
+        ->orderBy('total_score', 'desc')  // Order by the summed scores
+        ->take(5)  // Limit to the top 5 users
         ->get();
 
     return response()->json($topScores);

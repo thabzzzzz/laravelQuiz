@@ -6,6 +6,6 @@
 }
 
 /* Apply the font to all text across the site */
-body {
+body,nav {
     font-family: 'Montserrat', sans-serif;
 }

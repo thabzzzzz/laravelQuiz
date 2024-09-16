@@ -6,7 +6,7 @@
       <!-- Form for uploading the high score -->
       <div class="upload-form">
         <input v-model="username" placeholder="Enter your username" />
-        <button @click="uploadHighScore">Upload Highscore</button>
+        <button class="uploadscore" @click="uploadHighScore">Upload Highscore</button>
         <p v-if="uploadSuccessMessage">{{ uploadSuccessMessage }}</p>
       </div>
     </div>
@@ -87,6 +87,10 @@
   .upload-form p {
     margin-top: 10px;
     font-size: 18px;
+  }
+
+  .uploadscore{
+    color: black;
   }
   </style>
   
