@@ -1,12 +1,20 @@
 <script setup>
-import q from '../data/quizes.json';
-import { ref,watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import Card from '../components/Card.vue';
 import {RouterView} from 'vue-router';
 import quizesView from '../views/quizePage.vue'
 import gsap from 'gsap'
  
-const quizes = ref(q);
+const quizes = ref([]);
+// load quizzes at runtime so changes to quizes.json are picked up immediately
+onMounted(async () => {
+  try {
+    const res = await fetch('/resources/data/quizes.json', { cache: 'no-store' });
+    if (res.ok) quizes.value = await res.json();
+  } catch (e) {
+    console.error('Failed to load quizzes', e);
+  }
+});
 const search = ref('');
 
 watch(search, ()=>{
