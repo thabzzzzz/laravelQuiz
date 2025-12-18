@@ -1,10 +1,10 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import Card from '../components/Card.vue';
-import {RouterView} from 'vue-router';
+import { RouterView } from 'vue-router';
 import quizesView from '../views/quizePage.vue'
 import gsap from 'gsap'
- 
+
 const quizes = ref([]);
 // load quizzes at runtime so changes to quizes.json are picked up immediately
 onMounted(async () => {
@@ -17,36 +17,36 @@ onMounted(async () => {
 });
 const search = ref('');
 
-watch(search, ()=>{
-  quizes.value= q.filter(quiz=>quiz.name.toLowerCase().includes(search.value.toLocaleLowerCase()))
+watch(search, () => {
+  quizes.value = q.filter(quiz => quiz.name.toLowerCase().includes(search.value.toLocaleLowerCase()))
 })
 
-const beforeEnter = (el)=>{
+const beforeEnter = (el) => {
   //card-enter-from
   el.style.transform = 'translateY(-30px)';
-  el.style.opacity=0;
-  
+  el.style.opacity = 0;
+
 }
-const enter = (el)=>{
- gsap.to(el,{
-  opacity:1,
-  y:0,
-  duration:0.4,
-  delay:el.dataset.index *0.2
- })
+const enter = (el) => {
+  gsap.to(el, {
+    opacity: 1,
+    y: 0,
+    duration: 0.4,
+    delay: el.dataset.index * 0.2
+  })
 }
-const afterEnter = ()=>{
+const afterEnter = () => {
   console.log('after enter')
 }
 </script>
 
 <template>
-      <div class="container">
+  <div class="container">
     <header>
-      <h1>Quizzy</h1>
+      <h1>quizzy</h1>
       <input v-model.trim="search" type="text" placeholder="Search...">
     </header>
-    
+
     <div class="options-container">
       <!-- <div class="card" v-for="quiz in quizes" :key="quiz.id">
         <img :src="quiz.img" alt="">
@@ -55,18 +55,14 @@ const afterEnter = ()=>{
           <p>{{ quiz.questions.length }} questions</p>
         </div>
       </div> -->
-      <TransitionGroup  appear
-      @before-enter="beforeEnter"
-      @enter="enter"
-      @after-enter="afterEnter"
-      >
-        <Card v-for="(quiz, index) in quizes" :key="quiz.id" :quiz="quiz" :data-index="index" >
+      <TransitionGroup appear @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+        <Card v-for="(quiz, index) in quizes" :key="quiz.id" :quiz="quiz" :data-index="index">
         </Card>
       </TransitionGroup>
-    
-     
 
-     
+
+
+
 
     </div>
   </div>
@@ -74,48 +70,51 @@ const afterEnter = ()=>{
 
 <style scoped>
 .container {
-    max-width: 1000px;
-    margin: 0 auto;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 header {
-    margin-bottom: 10px;
-    margin-top: 30px;
-    display: flex;
-    align-items: center;
+  margin-bottom: 10px;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
 }
 
 header h1 {
-    font-weight: bold;
-    margin-right: 30px;
+  font-weight: bold;
+  margin-right: 30px;
 }
 
 header input {
-    border: 2px solid bisque; /* Add bisque border */
-    background-color: rgba(128, 128, 128, 0.1);
-    padding: 10px;
-    border-radius: 5px;
-    transition: border-color 0.2s ease; /* Smooth transition for border color */
+  border: 2px solid bisque;
+  /* Add bisque border */
+  background-color: rgba(128, 128, 128, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  transition: border-color 0.2s ease;
+  /* Smooth transition for border color */
 }
 
 header input:hover {
-    border-color: rgb(255, 184, 97); /* Change border color on hover */
+  border-color: rgb(255, 184, 97);
+  /* Change border color on hover */
 }
 
 .options-container {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 40px;
 }
 
 .card-enter-active,
 .card-leave-active {
-    transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 
 .card-enter-from,
 .card-leave-to {
-    opacity: 0;
-    transform: translateY(-30px);
+  opacity: 0;
+  transform: translateY(-30px);
 }
 </style>
